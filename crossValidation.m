@@ -4,7 +4,7 @@ function rmse = crossValidation(trainIn, trainOut, n)
 
 	% Combine input
 	combinedData = [trainOut, trainIn];
-	% Break data into 2 equal sets to train and test against
+	% Re-order data randomly
 	randomOrderData = combinedData(randperm(size(combinedData,1)),:);
 
 	% Randomly re-order data
@@ -27,7 +27,7 @@ function rmse = crossValidation(trainIn, trainOut, n)
 		params
 		gaussEval = testRegressor(testIn, params);
 
-		% plot3(testIn(:,1),testIn(:,2),gaussEval, '.r');
+		plot3(testIn(:,1),testIn(:,2),gaussEval, '.r');
 
 		rmse(i) = rmserror(gaussEval, testOut);
 		rmse
