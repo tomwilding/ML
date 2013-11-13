@@ -3,10 +3,9 @@ function params = trainRegressorInverse(trainIn, trainOut)
     lat = normalise(trainIn(:,1));
     long = normalise(trainIn(:,2));
 
-    numClusters = 15;
-    meansOfGaussians = kmeans(lat, long, 15);
-
-    numGauss = numClusters;
+    numGauss = 15;
+    numClusters = numGauss;
+    [cx, sdx, cy, sdy] = kmeans(lat, long, numClusters);
     mustep = 1/(numGauss+1);
     c = mustep:mustep:1-mustep;
     r = mustep;

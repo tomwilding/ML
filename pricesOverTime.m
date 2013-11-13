@@ -31,11 +31,12 @@ params = trainRegressorInverse(trainIn, trainOut);
 plot3(trainIn(:,1),trainIn(:,2),trainOut, '.');
 hold on
 
-nlat = normalise(rentalFiltered(:,3));
-nlong = normalise(rentalFiltered(:,4));
-%Calculate value at this point
-gaussEval = evalAllGauss(params.w, params.c, params.r, nlat, nlong);
-plot3(trainIn(:,1),trainIn(:,2),gaussEval, '.r');
+% nlat = normalise(rentalFiltered(:,3));
+% nlong = normalise(rentalFiltered(:,4));
+% %Calculate value at this point
+% gaussEval = evalAllGauss(params.w, params.c, params.r, nlat, nlong);
+% plot3(trainIn(:,1),trainIn(:,2),gaussEval, '.r');
+testRegressor(trainIn, params);
 
 % params = trainRegressor2(trainIn, trainOut);
 % MU1 = params(1)
