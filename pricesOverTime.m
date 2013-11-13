@@ -1,4 +1,4 @@
-clearvars *
+% clearvars *
 load('rental.mat')
 
 rentalByTime = sortrows(rental,2);
@@ -26,18 +26,19 @@ price = rentalByTimeFiltered(:,1);
 % Q2
 trainIn = [rentalFiltered(:,3) rentalFiltered(:,4)];
 trainOut = rentalFiltered(:,1);
-params = trainRegressorInverse(trainIn, trainOut);
+rms = crossValidation(trainIn, trainOut, 2)
+% params = trainRegressor(trainIn, trainOut);
 
-plot3(trainIn(:,1),trainIn(:,2),trainOut, '.');
-hold on
+% plot3(trainIn(:,1),trainIn(:,2),trainOut, '.');
+% hold on
 
 % nlat = normalise(rentalFiltered(:,3));
 % nlong = normalise(rentalFiltered(:,4));
 % %Calculate value at this point
 % gaussEval = evalAllGauss(params.w, params.c, params.r, nlat, nlong);
 % plot3(trainIn(:,1),trainIn(:,2),gaussEval, '.r');
-testRegressor(trainIn, params);
-
+% gaussEval = testRegressor(trainIn, params);
+% plot3(trainIn(:,1),trainIn(:,2),gaussEval, '.r');
 % params = trainRegressor2(trainIn, trainOut);
 % MU1 = params(1)
 % MU2 = params(2)

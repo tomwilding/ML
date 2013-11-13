@@ -3,28 +3,23 @@ function params = trainRegressorInverse(trainIn, trainOut)
     lat = normalise(trainIn(:,1));
     long = normalise(trainIn(:,2));
 
-    numGauss = 15;
+    numGauss = 2;
     numClusters = numGauss;
     [cx, sdx, cy, sdy] = kmeans(lat, long, numClusters);
-    mustep = 1/(numGauss+1);
-    c = mustep:mustep:1-mustep;
-    r = mustep;
 
-    xmus = repmat(c,numGauss);
-    xmus = xmus(1,:);
-    ymus = reshape(repmat(c,numGauss), numGauss^2, numGauss);
-    ymus = ymus(:,1)';
-    w = ones(numGauss^2,1);
+    % Compose thi matrix
+    for (i=1:length(trainOut))
+        for (j=1:numGauss)
+            % Base encoding of data point xi
+            thi(i,j) = exp(-((((lat(i) - cx(j))^2)/(2*sdx(j)^2)) + (((long(i) - cy(j))^2)/(2*sdy(j)^2))));
+        end
+    end
 
-    % Calculate thi
-    xminusmus = bsxfun(@minus, lat, xmus);
-    yminusmus = bsxfun(@minus, long, ymus);
-    thi = exp(-(((xminusmus.^2)/(2*r^2))+((yminusmus.^2)/(2*r^2))));
     % Log transform for better fit
     z = log(trainOut);
     % Optimisation using the pseudoinverse
-
-    params.w = (thi' * thi) \ thi'*trainOut;
-    params.r = r;
-    params.c = c;
+    (thi' * thi) \ thi'*z
+    params.w = (thi' * thi) \ thi'*z;
+    params.r = [sdx, sdy];
+    params.c = [cx, cy];
 end

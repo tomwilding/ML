@@ -10,7 +10,6 @@ function results = testRegressor(testIn, params)
 	nlat = normalise(testIn(:,1));
 	nlong = normalise(testIn(:,2));
 	%Calculate value at this point
-	gaussEval = evalAllGauss(params.w, params.c, params.r, nlat, nlong);
-	plot3(testIn(:,1),testIn(:,2),gaussEval, '.r');
+	results = evalAllGauss(params.w, params.b, params.c, params.r, nlat, nlong);
 
 end
