@@ -23,21 +23,18 @@ price = rentalByTimeFiltered(:,1);
 % Split data into time samples
 % samplesByTime = sampleOverTime(rentalsWithoutOutliers);
 
-% 2
+% Q2
 trainIn = [rentalFiltered(:,3) rentalFiltered(:,4)];
 trainOut = rentalFiltered(:,1);
-params = trainRegressor(trainIn, trainOut);
+params = trainRegressorInverse(trainIn, trainOut);
 
 plot3(trainIn(:,1),trainIn(:,2),trainOut, '.');
 hold on
 
 nlat = normalise(rentalFiltered(:,3));
 nlong = normalise(rentalFiltered(:,4));
-numGauss = 3;
-c = (0:1/(numGauss-1):1);
-r = 1/numGauss;
 %Calculate value at this point
-gaussEval = evalAllGauss(params, c, r, nlat, nlong);
+gaussEval = evalAllGauss(params.w, params.c, params.r, nlat, nlong);
 plot3(trainIn(:,1),trainIn(:,2),gaussEval, '.r');
 
 % params = trainRegressor2(trainIn, trainOut);
