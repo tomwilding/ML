@@ -62,8 +62,13 @@ function centralLineByTime = centralLineOverTime(trainIn, params)
 	stationPredsOverTime = []
 	for (station=1:size(centralLine,2))
 		timeVec = times'
-		stationVec = ones(size(times,1),1)*station;
-		priceVec = centralLineByTime(:,i);
+		size(times)
+		stationVec = ones(size(times,2),1)*station;
+		priceVec = centralLineByTime(i,:);
+		size(timeVec)
+		size(stationVec)
+		size(priceVec)
+		pause
 		[stationPredsOverTime;[timeVec, stationVec, priceVec]];
 	end
 end
