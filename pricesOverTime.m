@@ -36,8 +36,8 @@ price = rentalByTimeFiltered(:,1);
 % params = trainRegressor(trainIn, trainOut);
 
 
-% Q2
-trainIn = [rentalFiltered(:,2) rentalFiltered(:,4), rentalFiltered(:,3)];
+% Q3
+trainIn = [rentalFiltered(:,2) rentalFiltered(:,3), rentalFiltered(:,4)];
 trainOut = rentalFiltered(:,1);
 rms = crossValidationTime(trainIn, trainOut, 4)
 

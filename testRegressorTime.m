@@ -8,8 +8,8 @@
 function results = testRegressorTime(testIn, params)
 
 	ntime = normalise(testIn(:,1));
-	nlong = normalise(testIn(:,2));
-	nlat = normalise(testIn(:,3));
+	nlat = normalise(testIn(:,2));
+	nlong = normalise(testIn(:,3));
 	%Calculate value at this point
 	results = evalAllGaussTime(params.w, params.b, params.c, params.r, ntime, nlong, nlat);
 
