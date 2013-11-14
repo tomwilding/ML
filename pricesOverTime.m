@@ -37,9 +37,9 @@ price = rentalByTimeFiltered(:,1);
 
 
 % Q3
-trainIn = [rentalFiltered(:,2) rentalFiltered(:,3), rentalFiltered(:,4)];
+trainIn = [rentalFiltered(:,2), rentalFiltered(:,3), rentalFiltered(:,4)];
 trainOut = rentalFiltered(:,1);
-rms = crossValidationTime(trainIn, trainOut, 4)
+rms = crossValidationTime(trainIn, trainOut, 4);
 
 % plot3(trainIn(:,1),trainIn(:,2),trainOut,'.k');
 % title('Rental Price against Location','FontSize',16)

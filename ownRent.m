@@ -1,5 +1,4 @@
-
-function u = upminster(trainIn, params)
+function o = ownRent(trainIn, params)
 	load('rental.mat')
 	% rentalFiltered = filterOutliers(rental);
 
@@ -26,8 +25,9 @@ function u = upminster(trainIn, params)
 	% params = trainRegressor(trainIn, trainOut);
 
 	% Pass all data train on plus upminster
-	trainIn = [trainIn;tube.location(264,:)];
+	ownLocation = [51.4861229, -0.2089814999]
+	trainIn = [trainIn;ownLocation];
 
-	upminsterPred = testRegressor(trainIn, params);
-	u = upminsterPred(size(upminsterPred,1));
+	ownPred = testRegressor(trainIn, params);
+	o = ownPred(size(ownPred,1));
 end

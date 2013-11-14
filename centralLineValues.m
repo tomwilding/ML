@@ -59,12 +59,6 @@ function clv = centralLineValues(trainIn, params)
 	end
 	set(t,'Rotation', 90, 'HorizontalAlignment','left', 'Color', 'w');
 	grid on;
-
-	allIn = [trainIn;tube.location];
-	allPreds = testRegressor(allIn, params);
-	% Get just the predicted tube values
-	tubePreds = allPreds(size(trainIn,1)+1: size(allPreds,1), :);
-	clv
-
+	clv = centralLinePreds;
 
 end
