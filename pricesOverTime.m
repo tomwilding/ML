@@ -1,4 +1,4 @@
-% clearvars *
+clearvars *
 load('rental.mat')
 
 rentalByTime = sortrows(rental,2);
@@ -30,10 +30,16 @@ price = rentalByTimeFiltered(:,1);
 % samplesByTime = sampleOverTime(rentalsWithoutOutliers);
 
 % Q2
-trainIn = [rentalFiltered(:,3) rentalFiltered(:,4)];
-trainOut = rentalFiltered(:,1);
-rms = crossValidation(trainIn, trainOut, 4)
+% trainIn = [rentalFiltered(:,3) rentalFiltered(:,4)];
+% trainOut = rentalFiltered(:,1);
+% rms = crossValidation(trainIn, trainOut, 4)
 % params = trainRegressor(trainIn, trainOut);
+
+
+% Q2
+trainIn = [rentalFiltered(:,2) rentalFiltered(:,4), rentalFiltered(:,3)];
+trainOut = rentalFiltered(:,1);
+rms = crossValidationTime(trainIn, trainOut, 4)
 
 % plot3(trainIn(:,1),trainIn(:,2),trainOut,'.k');
 % title('Rental Price against Location','FontSize',16)
