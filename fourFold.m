@@ -27,7 +27,11 @@ trainOut = randomOrderData(trainIndicies,1);
 
 % Train reg
 params = trainRegressor(trainIn, trainOut);
-i = imperial(trainIn, params);
-u = upminster(trainIn, params);
-surfLondon(trainIn, params);
+
+% Questions using the same trained regressor
+% t = tubeValues(trainIn, params);
+c = centralLineValues(trainIn,params);
+% i = imperial(trainIn, params);
+% u = upminster(trainIn, params);
+% surfLondon(trainIn, params);
 
