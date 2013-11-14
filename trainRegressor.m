@@ -20,7 +20,7 @@ function params = trainRegressor(trainIn, trainOut)
     lat = normalise(trainIn(:,1));
     long = normalise(trainIn(:,2));
 
-    numGauss = 4;
+    numGauss = 6;
     numClusters = numGauss;
 
     [cx, sdx, cy, sdy] = kmeans(lat, long, numClusters);

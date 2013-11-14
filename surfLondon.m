@@ -1,54 +1,62 @@
-clearvars *
-load('rental.mat')
+function a = surfLondon(trainIn, params)
+	% clearvars *
+	% load('rental.mat')
 
-rentalFiltered = filterOutliers(rental);
+	% rentalFiltered = filterOutliers(rental);
 
-trainIn = [rentalFiltered(:,3) rentalFiltered(:,4)];
-trainOut = rentalFiltered(:,1);
+	% trainIn = [rentalFiltered(:,3) rentalFiltered(:,4)];
+	% trainOut = rentalFiltered(:,1);
 
-% Combine input
-combinedData = [trainOut, trainIn];
-% Re-order data randomly
-randomOrderData = combinedData(randperm(size(combinedData,1)),:);
+	% % Combine input
+	% combinedData = [trainOut, trainIn];
+	% % Re-order data randomly
+	% randomOrderData = combinedData(randperm(size(combinedData,1)),:);
 
-% Change the mod n to segment different proportions of data
-n = 4;
-testIndicies = mod(1:size(randomOrderData,1), n)==1;
-trainIndicies = ~testIndicies;
+	% % Change the mod n to segment different proportions of data
+	% n = 4;
+	% testIndicies = mod(1:size(randomOrderData,1), n)==1;
+	% trainIndicies = ~testIndicies;
 
-testIn(:,1) = randomOrderData(testIndicies,2);
-testIn(:,2) = randomOrderData(testIndicies,3);
+	% testIn(:,1) = randomOrderData(testIndicies,2);
+	% testIn(:,2) = randomOrderData(testIndicies,3);
 
-clearvars trainIn
-trainIn(:,1) = randomOrderData(trainIndicies,2);
-trainIn(:,2) = randomOrderData(trainIndicies,3);
-trainOut = randomOrderData(trainIndicies,1);
+	% clearvars trainIn
+	% trainIn(:,1) = randomOrderData(trainIndicies,2);
+	% trainIn(:,2) = randomOrderData(trainIndicies,3);
+	% trainOut = randomOrderData(trainIndicies,1);
 
-% Train reg
-params = trainRegressor(trainIn, trainOut);
+	% % Train reg
+	% params = trainRegressor(trainIn, trainOut);
 
-%test regressor over range of long and lat coordinates
-long = (trainIn(:,1));
-lat = (trainIn(:,2));
-longRangeStep = range(long) / 100;
-latRangeStep = range(lat) / 100;
-longRange = (min(long):longRangeStep:max(long));
-latRange = (min(lat):latRangeStep:max(lat));
+	%test regressor over range of long and lat coordinates
+	long = trainIn(:,1);
+	lat = trainIn(:,2);
+	longRangeStep = range(long) / 100;
+	latRangeStep = range(lat) / 100;
+	longRange = (min(long):longRangeStep:max(long));
+	latRange = (min(lat):latRangeStep:max(lat));
 
-% size(testIn)
-% gaussEval = testRegressor(testIn, params);
-% plot3(testIn(:,1),testIn(:,2),gaussEval, '.r');
-% 
-[X,Y] = meshgrid(longRange, latRange);
+	[X,Y] = meshgrid(longRange, latRange);
+	% size(testIn)
+	% gaussEval = testRegressor(testIn, params);
+	% plot3(testIn(:,1),testIn(:,2),gaussEval, '.r');
+	%
+	% params.w = [1,1,1,1,1,1,1,1,1]
+	% params.c = [[0:1/3:1]', [0:1/3:1]']
+	% params.r = [ones(3,1), ones(3,1)]
+	% params.b = 10
 
-for (i=1: size(X,1))
-	for (j=1: size(Y,1))
-		%Calculate value at this point
-		gaussEval(i,j) = testRegressor([X(i,j),Y(i,j)], params);
-	end
+	XReshape = reshape(X, size(longRange,2)^2,1);
+	YReshape = reshape(Y, size(latRange,2)^2,1);
+	testIn = [XReshape,YReshape];
+
+	gaussEval = testRegressor(testIn, params);
+	gaussEvalReshape = reshape(gaussEval, size(longRange,2), size(latRange,2));
+
+	surf(X,Y,gaussEvalReshape);
+
+	% hold on;
+	% tys = ones(size(tube.location,1))*2500;
+	% plot3(tube.location(:,1), tube.location(:,2), tys, 'or');
+
 end
-surf(X,Y,gaussEval);
-
-hold on;
-tys = ones(size(tube.location,1))*2500;
-plot3(normalise(tube.location(:,1)), normalise(tube.location(:,2)), tys, 'or');
