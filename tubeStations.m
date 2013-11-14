@@ -14,7 +14,7 @@ rentalFiltered = filterOutliers(rental);
 % % Change the mod n to segment different proportions of data
 % n = 4;
 % clearvars testIn
-% testIndicies = mod(1:size(randomOrderData,1), n)==i-1;
+% testIndicies = mod(1:size(randomOrderData,1), n)==1;
 % trainIndicies = ~testIndicies;
 
 % clearvars trainIn

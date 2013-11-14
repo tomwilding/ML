@@ -71,7 +71,7 @@ rms = crossValidation(trainIn, trainOut, 4)
 % for (i=1: length(X))
 % 	for (j=1: length(Y))
 % 		%Calculate value at this point
-% 		doubleGaussEval(i,j) = A * exp(-( ((X(i)-MU1)^2/(2*(SD1^2))) + ((Y(j)-MU2)^2/(2*(SD2^2))) ));
+% 		doubleGaussEval(i,j) = exp(-( ((X(i)-0.5)^2/(2*(std(X)^2))) + ((Y(j)-0.5)^2/(2*(std(Y)^2))) ));
 % 	end
 % end
 
