@@ -28,8 +28,8 @@ trainOut = randomOrderData(trainIndicies,1);
 params = trainRegressor(trainIn, trainOut);
 
 %test regressor over range of long and lat coordinates
-long = normalise(trainIn(:,1));
-lat = normalise(trainIn(:,2));
+long = (trainIn(:,1));
+lat = (trainIn(:,2));
 longRangeStep = range(long) / 100;
 latRangeStep = range(lat) / 100;
 longRange = (min(long):longRangeStep:max(long));
@@ -44,6 +44,11 @@ latRange = (min(lat):latRangeStep:max(lat));
 for (i=1: size(X,1))
 	for (j=1: size(Y,1))
 		%Calculate value at this point
-		doubleGaussEval(i,j) = testRegressor([X(i,j),Y(i,j)], params);
+		gaussEval(i,j) = testRegressor([X(i,j),Y(i,j)], params);
 	end
 end
+surf(X,Y,gaussEval);
+
+hold on;
+tys = ones(size(tube.location,1))*2500;
+plot3(normalise(tube.location(:,1)), normalise(tube.location(:,2)), tys, 'or');
