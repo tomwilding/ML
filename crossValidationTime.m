@@ -28,7 +28,7 @@ function rmse = crossValidationTime(trainIn, trainOut, n)
 		params = trainRegressorTime(trainIn, trainOut);
 		gaussEval = testRegressorTime(testIn, params);
 
-		% plot3(testIn(:,1),testIn(:,2),gaussEval, '.r');
+		% plot3(testIn(:,2),testIn(:,3),gaussEval, '.r');
 
 		rmse(i) = rmserror(gaussEval, testOut);
 		rmse;

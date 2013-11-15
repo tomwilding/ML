@@ -1,7 +1,7 @@
 function centralLineByTime = centralLineOverTime(trainIn, params)
 	load('rental.mat')
 
-	centralline = {
+	centralLineNames = {
 		'Ealing Broadway',
 		'North Acton',
 		'West Acton',
@@ -32,62 +32,65 @@ function centralLineByTime = centralLineOverTime(trainIn, params)
 	uniqueTubeLatOnLine = [];
 	uniqueTubeLongOnLine = [];
 	for (i=1:size(uniqueTubeNames))
-		if (ismember(uniqueTubeNames(i),centralline))
+		if (ismember(uniqueTubeNames(i),centralLineNames))
 			uniqueTubeNamesOnLine = [uniqueTubeNamesOnLine;tube.station(uniqueTubeIndicies(i))];
 			uniqueTubeLatOnLine = [uniqueTubeLatOnLine;tube.location(uniqueTubeIndicies(i),1)];
 			uniqueTubeLongOnLine = [uniqueTubeLongOnLine;tube.location(uniqueTubeIndicies(i),2)];
 		end
 	end
 	centralLine = [uniqueTubeLatOnLine, uniqueTubeLongOnLine];
+	
+	centralLineSorted = sortCentralLine(centralLine, centralLineNames);
+
 	% Add times to evaluate reressor
 	minTime = min(rental(:,2));
 	maxTime = max(rental(:,2));
 	% Num months
-	numMonths = months(minTime, maxTime);
+	numMonths = months(minTime, maxTime)
+	% Start time
+	startDateAsVec = datevec(minTime);
+	endDateAsVec = datevec(maxTime);
+
+
+	startTime = datenum([startDateAsVec(1) startDateAsVec(2) 0 0 0 0]);
+	endTime = datenum([endDateAsVec(1) endDateAsVec(2) 0 0 0 0]);
+
 	% Array of time values
-	timeGap = range(rental(:,2))/numMonths;
-	times = (minTime : timeGap : maxTime);
-	% Central line prices at all stations for a given time
+	timeGap = range(rental(:,2))/(numMonths-1);
+	times = (startTime : timeGap : endTime)';
+
+	% Central line prices at stations for a given time
 	allIn = trainIn;
-	for (i=1 : size(times,2))
-		% Add this time period to centralLineIn values
-		timeVec = ones(size(centralLine,1),1)*(times(1,i));
-		% Append this time vec to central line lat long inputs
-		% centralLine
+	for (i=1 : size(centralLineSorted,1))
+		% vector of one station coord
+		stationVec = ones(size(times,1),1)*centralLineSorted(i,:);
+		timeVec = times;
+		centralLineIn = [timeVec,stationVec];
+		% size(centralLineIn)
+		% centralLineIn
 		% pause
-		centralLineIn = [timeVec,centralLine];
-		% centralLine
-		% pause
-		% pause
+		% size(trainIn)
 		allIn = [allIn;centralLineIn];
 		% allIn
 		% pause
-		% allIn(size(allIn,1),:)
+		% size(allIn)
 	end
-	% Test on test data with all train data
-	allPreds = testRegressor(allIn, params);
-	% Get only the central line values at the end
-	predsForTime = allPreds(size(trainIn,1)+1: size(allPreds,1), :);
-	predsForTime(44:66)
-	pause
-	pause
-	% size(predsForTime)
-	% pause
+	% Predictions by stations at all times
+	allPreds = testRegressorTime(allIn, params);
+	% Get only the central line values
+	predsForTime = allPreds(size(trainIn,1)+1: size(allPreds,1), :)
+	% predsForTime
+
 	centralLineByTime = [];
-	size(centralLine,1)
-	for (station=1:size(centralLine,1))
-		% size(times,2)
-		% Vector of the current station which is the length of time
-		stationVec = ones(size(times,2),1)*station;
-		% size(stationVec)
-		% Prices for the current station over all time chunks 
-		% pause
-		priceVec = predsForTime((station-1)*size(times,2)+1:station*(size(times,2)));
-		% size(priceVec)
+	% size(centralLine,1)
+	for (station=1:size(centralLineSorted,1))
+		stationVec = ones(size(times,1),1)*station
+		priceVec = predsForTime((station-1)*size(times,1)+1: station*size(times,1))
 		% priceVec
 		% pause
-		% append current time, station number and price preds
-		centralLineByTime = [centralLineByTime;[times', stationVec, priceVec]]
+		centralLineByTime = [centralLineByTime;[times, stationVec, priceVec]];
 	end
-	plot3(centralLineByTime(:,1), centralLineByTime(:,2), centralLineByTime(:,3),'.')
+	% plot3(centralLineByTime(:,1), centralLineByTime(:,2), centralLineByTime(:,3),'.')
+	surf([1:size(centralLine,1)]', times, reshape(predsForTime, size(times,1), size(centralLine,1)))
+	shading interp;
 end

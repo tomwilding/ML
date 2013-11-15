@@ -21,7 +21,7 @@ function params = trainRegressorTime(trainIn, trainOut)
     lat = normalise(trainIn(:,2));
     long = normalise(trainIn(:,3));
 
-    numGauss = 8;
+    numGauss = 6;
     numClusters = numGauss;
 
     [cx, sdx, cy, sdy, cz, sdz] = kmeansTime(lat, long, time, numClusters);
@@ -36,9 +36,7 @@ function params = trainRegressorTime(trainIn, trainOut)
     for (i=1:length(trainOut))
         for (j=1:numGauss)
             % Base encoding of data point xi
-            thi(i,j) = b + exp(-((((lat(i) - cx(j))^2)/(2*sdx(j)^2)) ...
-                            + (((long(i) - cy(j))^2)/(2*sdy(j)^2)) ...
-                            + (((time(i) - cz(j))^2)/(2*sdz(j)^2))));
+            thi(i,j) = b + exp(-((((lat(i) - cx(j))^2)/(2*sdx(j)^2)) + (((long(i) - cy(j))^2)/(2*sdy(j)^2)) + (((time(i) - cz(j))^2)/(2*sdz(j)^2))));
         end
     end
 
