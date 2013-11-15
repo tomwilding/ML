@@ -38,9 +38,13 @@ function centralLineByTime = centralLineOverTime(trainIn, params)
 			uniqueTubeLongOnLine = [uniqueTubeLongOnLine;tube.location(uniqueTubeIndicies(i),2)];
 		end
 	end
-	centralLine = [uniqueTubeLatOnLine, uniqueTubeLongOnLine];
 	
-	centralLineSorted = sortCentralLine(centralLine, centralLineNames);
+	orderedStations = sortCentralLine(uniqueTubeNamesOnLine, uniqueTubeLatOnLine, uniqueTubeLongOnLine, centralLineNames);
+	orderedStations.names
+	orderedStations.lats
+	orderedStations.longs
+
+	centralLineSorted = [orderedStations.lats,orderedStations.longs]
 
 	% Add times to evaluate reressor
 	minTime = min(rental(:,2));
@@ -91,6 +95,6 @@ function centralLineByTime = centralLineOverTime(trainIn, params)
 		centralLineByTime = [centralLineByTime;[times, stationVec, priceVec]];
 	end
 	% plot3(centralLineByTime(:,1), centralLineByTime(:,2), centralLineByTime(:,3),'.')
-	surf([1:size(centralLine,1)]', times, reshape(predsForTime, size(times,1), size(centralLine,1)))
+	surf([1:size(centralLineSorted,1)]', times, reshape(predsForTime, size(times,1), size(centralLineSorted,1)))
 	shading interp;
 end
