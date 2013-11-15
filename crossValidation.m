@@ -1,4 +1,4 @@
-function rmse = crossValidation(trainIn, trainOut, n)
+function avgmse = crossValidation(trainIn, trainOut, n)
 
 	rmse = zeros(1,n);
 
@@ -24,14 +24,12 @@ function rmse = crossValidation(trainIn, trainOut, n)
 		trainOut = randomOrderData(trainIndicies,1);
 
 		params = trainRegressor(trainIn, trainOut);
-		params
 		gaussEval = testRegressor(testIn, params);
 
-		plot3(testIn(:,1),testIn(:,2),gaussEval, '.r');
+		% plot3(testIn(:,1),testIn(:,2),gaussEval, '.r');
 
 		rmse(i) = rmserror(gaussEval, testOut);
-		rmse
-		avgmse = mean(rmse)
+		avgmse = mean(rmse);
 	end
 
 end

@@ -1,4 +1,4 @@
-function rmse = crossValidationTime(trainIn, trainOut, n)
+function avgmse = crossValidationTime(trainIn, trainOut, n)
 
 	rmse = zeros(1,n);
 
@@ -31,8 +31,7 @@ function rmse = crossValidationTime(trainIn, trainOut, n)
 		% plot3(testIn(:,2),testIn(:,3),gaussEval, '.r');
 
 		rmse(i) = rmserror(gaussEval, testOut);
-		rmse;
-		avgmse = mean(rmse)
+		avgmse = mean(rmse);
 	end
 
 end

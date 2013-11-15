@@ -26,7 +26,7 @@ function centralLineByTime = centralLineOverTime(trainIn, params)
 		'Stratford'
 	};
 
-	% Rem Dups
+	% Remove duplicate tube stations
 	[uniqueTubeNames, uniqueTubeIndicies] = unique(tube.station);
 	uniqueTubeNamesOnLine = [];
 	uniqueTubeLatOnLine = [];
@@ -40,17 +40,14 @@ function centralLineByTime = centralLineOverTime(trainIn, params)
 	end
 	
 	orderedStations = sortCentralLine(uniqueTubeNamesOnLine, uniqueTubeLatOnLine, uniqueTubeLongOnLine, centralLineNames);
-	orderedStations.names
-	orderedStations.lats
-	orderedStations.longs
 
-	centralLineSorted = [orderedStations.lats,orderedStations.longs]
+	centralLineSorted = [orderedStations.lats,orderedStations.longs];
 
 	% Add times to evaluate reressor
 	minTime = min(rental(:,2));
 	maxTime = max(rental(:,2));
 	% Num months
-	numMonths = months(minTime, maxTime)
+	numMonths = months(minTime, maxTime);
 	% Start time
 	startDateAsVec = datevec(minTime);
 	endDateAsVec = datevec(maxTime);
@@ -70,26 +67,20 @@ function centralLineByTime = centralLineOverTime(trainIn, params)
 		stationVec = ones(size(times,1),1)*centralLineSorted(i,:);
 		timeVec = times;
 		centralLineIn = [timeVec,stationVec];
-		% size(centralLineIn)
-		% centralLineIn
-		% pause
-		% size(trainIn)
+		% Combine input times and stations
 		allIn = [allIn;centralLineIn];
-		% allIn
-		% pause
-		% size(allIn)
 	end
 	% Predictions by stations at all times
 	allPreds = testRegressorTime(allIn, params);
 	% Get only the central line values
-	predsForTime = allPreds(size(trainIn,1)+1: size(allPreds,1), :)
+	predsForTime = allPreds(size(trainIn,1)+1: size(allPreds,1), :);
 	% predsForTime
 
 	centralLineByTime = [];
 	% size(centralLine,1)
 	for (station=1:size(centralLineSorted,1))
-		stationVec = ones(size(times,1),1)*station
-		priceVec = predsForTime((station-1)*size(times,1)+1: station*size(times,1))
+		stationVec = ones(size(times,1),1)*station;
+		priceVec = predsForTime((station-1)*size(times,1)+1: station*size(times,1));
 		% priceVec
 		% pause
 		centralLineByTime = [centralLineByTime;[times, stationVec, priceVec]];

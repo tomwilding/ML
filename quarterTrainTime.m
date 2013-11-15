@@ -29,5 +29,6 @@ trainIn(:,3) = randomOrderData(trainIndicies,4);
 trainOut = randomOrderData(trainIndicies,1);
 
 params = trainRegressorTime(trainIn, trainOut);
-u = upminsterTime(trainIn, params)
-centralLineTime = centralLineOverTime(trainIn, params)
+% u = upminsterTime(trainIn, params)
+% centralLineTime = centralLineOverTime(trainIn, params);
+highestPriceChange = highestIncrease(trainIn, params)

@@ -31,7 +31,7 @@ params = trainRegressor(trainIn, trainOut);
 % Questions using the same trained regressor
 t = tubeValues(trainIn, params)
 c = centralLineValues(trainIn,params);
-% i = imperial(trainIn, params)
-% u = upminster(trainIn, params)
-% surfLondon(trainIn, params);
-% own = ownRent(trainIn, params)
+i = imperial(trainIn, params)
+u = upminster(trainIn, params)
+surfLondon(trainIn, params);
+own = ownRent(trainIn, params)
