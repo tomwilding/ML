@@ -42,33 +42,52 @@ function centralLineByTime = centralLineOverTime(trainIn, params)
 	% Add times to evaluate reressor
 	minTime = min(rental(:,2));
 	maxTime = max(rental(:,2));
+	% Num months
+	numMonths = months(minTime, maxTime);
 	% Array of time values
-	timeGap = range(rental(:,2)/100);
+	timeGap = range(rental(:,2))/numMonths;
 	times = (minTime : timeGap : maxTime);
-	% Central line prices at stations for a given time
-	centralLineByTime = zeros(size(centralLine,1),1);
+	% Central line prices at all stations for a given time
+	allIn = trainIn;
 	for (i=1 : size(times,2))
-		% Add this time to centralLineIn
+		% Add this time period to centralLineIn values
 		timeVec = ones(size(centralLine,1),1)*(times(1,i));
+		% Append this time vec to central line lat long inputs
+		% centralLine
+		% pause
 		centralLineIn = [timeVec,centralLine];
-		allIn = [trainIn;centralLineIn];
+		% centralLine
+		% pause
+		% pause
+		allIn = [allIn;centralLineIn];
+		% allIn
+		% pause
 		% allIn(size(allIn,1),:)
-		allPreds = testRegressor(allIn, params);
-		% Get only the central line values
-		allPreds(size(trainIn,1)+1: size(allPreds,1), :);
-		centralLineByTime(:,i) = allPreds(size(trainIn,1)+1: size(allPreds,1), :);
 	end
-
-	stationPredsOverTime = []
-	for (station=1:size(centralLine,2))
-		timeVec = times'
-		size(times)
+	% Test on test data with all train data
+	allPreds = testRegressor(allIn, params);
+	% Get only the central line values at the end
+	predsForTime = allPreds(size(trainIn,1)+1: size(allPreds,1), :);
+	predsForTime(44:66)
+	pause
+	pause
+	% size(predsForTime)
+	% pause
+	centralLineByTime = [];
+	size(centralLine,1)
+	for (station=1:size(centralLine,1))
+		% size(times,2)
+		% Vector of the current station which is the length of time
 		stationVec = ones(size(times,2),1)*station;
-		priceVec = centralLineByTime(i,:);
-		size(timeVec)
-		size(stationVec)
-		size(priceVec)
-		pause
-		[stationPredsOverTime;[timeVec, stationVec, priceVec]];
+		% size(stationVec)
+		% Prices for the current station over all time chunks 
+		% pause
+		priceVec = predsForTime((station-1)*size(times,2)+1:station*(size(times,2)));
+		% size(priceVec)
+		% priceVec
+		% pause
+		% append current time, station number and price preds
+		centralLineByTime = [centralLineByTime;[times', stationVec, priceVec]]
 	end
+	plot3(centralLineByTime(:,1), centralLineByTime(:,2), centralLineByTime(:,3),'.')
 end

@@ -12,7 +12,7 @@
 % randomOrderData = combinedData(randperm(size(combinedData,1)),:);
 
 % % Change the mod n to segment different proportions of data
-% n = 4;
+% n = 10;
 % testIndicies = mod(1:size(randomOrderData,1), n)==1;
 % trainIndicies = ~testIndicies;
 
@@ -28,7 +28,7 @@
 % trainIn(:,3) = randomOrderData(trainIndicies,4);
 % trainOut = randomOrderData(trainIndicies,1);
 
-params = trainRegressorTime(trainIn, trainOut);
+% params = trainRegressorTime(trainIn, trainOut);
 
 % Questions using the same time trained regressor
 centralLineTime = centralLineOverTime(trainIn, params)

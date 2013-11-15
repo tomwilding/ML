@@ -21,7 +21,7 @@ function params = trainRegressorTime(trainIn, trainOut)
     lat = normalise(trainIn(:,2));
     long = normalise(trainIn(:,3));
 
-    numGauss = 6;
+    numGauss = 8;
     numClusters = numGauss;
 
     [cx, sdx, cy, sdy, cz, sdz] = kmeansTime(lat, long, time, numClusters);
