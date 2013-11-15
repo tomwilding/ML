@@ -88,4 +88,9 @@ function centralLineByTime = centralLineOverTime(trainIn, params)
 	% plot3(centralLineByTime(:,1), centralLineByTime(:,2), centralLineByTime(:,3),'.')
 	surf([1:size(centralLineSorted,1)]', times, reshape(predsForTime, size(times,1), size(centralLineSorted,1)))
 	shading interp;
+	title('Central Line Station Prices Over Time','FontSize',16)
+	xlabel('Station','FontSize',14);
+	ylabel('Time','FontSize',14);
+	zlabel('Price [£]','FontSize',14);
+	datetick('y', 12);
 end

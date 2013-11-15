@@ -29,11 +29,20 @@ price = rentalByTimeFiltered(:,1);
 % Split data into time samples
 % samplesByTime = sampleOverTime(rentalsWithoutOutliers);
 
+% Prices against time plot
+% plot3(trainIn(:,2),trainIn(:,3),trainOut,'.');
+% title('Rental Price against Location','FontSize',16)
+% xlabel('Lattitude [Deg]','FontSize',14);
+% ylabel('Longitude [Deg]','FontSize',14);
+% zlabel('Price[£]','FontSize',14);
+% grid on;
+
 % Q2
-trainIn = [rentalFiltered(:,3) rentalFiltered(:,4)];
+% Plot price to location
+trainIn = [rentalFiltered(:,3),rentalFiltered(:,4)];
 trainOut = rentalFiltered(:,1);
-rms = crossValidation(trainIn, trainOut, 4)
 params = trainRegressor(trainIn, trainOut);
+% rms = crossValidation(trainIn, trainOut, 4)
 
 
 % % Q3
@@ -41,20 +50,21 @@ params = trainRegressor(trainIn, trainOut);
 % trainOut = rentalFiltered(:,1);
 % rms = crossValidationTime(trainIn, trainOut, 4);
 
-% plot3(trainIn(:,1),trainIn(:,2),trainOut,'.k');
-% title('Rental Price against Location','FontSize',16)
-% xlabel('Lattitude [Deg]','FontSize',14);
-% ylabel('Longitude [Deg]','FontSize',14);
-% zlabel('Price[£]','FontSize',14);
-% grid on;
 
-% hold on
-
-% nlat = normalise(rentalFiltered(:,3));
-% nlong = normalise(rentalFiltered(:,4));
+nlat = normalise(rentalFiltered(:,3));
+nlong = normalise(rentalFiltered(:,4));
+testIn = [nlat,nlong];
 % %Calculate value at this point
-% gaussEval = evalAllGauss(params.w, params.c, params.r, nlat, nlong);
-% plot3(trainIn(:,1),trainIn(:,2),gaussEval, '.r');
+gaussEval = testRegressor(testIn, params);
+plot3(rentalFiltered(:,3),rentalFiltered(:,4),gaussEval, '.r');
+hold on
+plot3(rentalFiltered(:,3),rentalFiltered(:,4),rentalFiltered(:,1), '.');
+title('Predicted and Actual Rental Prices','FontSize',16)
+xlabel('Latitude [Deg]','FontSize',14);
+% xlim([-0.8,0.4]);
+% ylim([51.1,51.9]);
+ylabel('Longitude [Deg]','FontSize',14);
+zlabel('Price [£]','FontSize',14);
 % gaussEval = testRegressor(trainIn, params);
 % plot3(trainIn(:,1),trainIn(:,2),gaussEval, '.r');
 % params = trainRegressor2(trainIn, trainOut);

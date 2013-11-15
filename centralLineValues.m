@@ -1,7 +1,7 @@
 function clv = centralLineValues(trainIn, params)
 	load('rental.mat')
 
-	centralline = {
+	centralLineNames = {
 		'Ealing Broadway',
 		'North Acton',
 		'West Acton',
@@ -32,13 +32,17 @@ function clv = centralLineValues(trainIn, params)
 	uniqueTubeLatOnLine = [];
 	uniqueTubeLongOnLine = [];
 	for (i=1:size(uniqueTubeNames))
-		if (ismember(uniqueTubeNames(i),centralline))
+		if (ismember(uniqueTubeNames(i),centralLineNames))
 			uniqueTubeNamesOnLine = [uniqueTubeNamesOnLine;tube.station(uniqueTubeIndicies(i))];
 			uniqueTubeLatOnLine = [uniqueTubeLatOnLine;tube.location(uniqueTubeIndicies(i),1)];
 			uniqueTubeLongOnLine = [uniqueTubeLongOnLine;tube.location(uniqueTubeIndicies(i),2)];
 		end
 	end
-	centralLineIn = [uniqueTubeLatOnLine, uniqueTubeLongOnLine];
+
+	orderedStations = sortCentralLine(uniqueTubeNamesOnLine, uniqueTubeLatOnLine, uniqueTubeLongOnLine, centralLineNames);
+
+	centralLineIn = [orderedStations.lats,orderedStations.longs];
+
 	% Test regressor using all values trained
 	allIn = [trainIn;centralLineIn];
 	allPreds = testRegressor(allIn, params);
@@ -50,15 +54,16 @@ function clv = centralLineValues(trainIn, params)
 	xlabel('Station','FontSize',14);
 	ylabel('Price [£]','FontSize',14);
 	hix = get(gca,'XLabel');
-	set(gca, 'XTickLabel', '', 'XTick', 1:numel(centralline));
+	set(gca, 'XTickLabel', '', 'XTick', 1:numel(centralLineNames));
 	set(hix,'Units','data');
 	position = get(hix, 'Position');
 	y = position(2);
-	for i = 1:size(centralline,1)
-		t(i) = text(i, y+100, centralline{i});
+	for i = 1:size(centralLineNames,1)
+		t(i) = text(i, y+100, centralLineNames{i});
 	end
 	set(t,'Rotation', 90, 'HorizontalAlignment','left', 'Color', 'w');
 	grid on;
+	axis tight;
 	clv = centralLinePreds;
 
 end
