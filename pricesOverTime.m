@@ -14,7 +14,7 @@ price = rentalByTimeFiltered(:,1);
 % Q1
 % m = leastSquareFit(price, time, 1),
 % %w = MLEGradDescAll(time, price);
-% %w = MLEGradDescAll(time, price, 1);
+w = MLEGradDescAll(time, price, 1);
 % fit = polyEval(m, time);
 
 % p1 = plot(time, price, '.k', time, fit, 'LineWidth', 2);
@@ -39,12 +39,12 @@ price = rentalByTimeFiltered(:,1);
 
 % Q2
 % Plot price to location
-trainIn = [rentalFiltered(:,3),rentalFiltered(:,4)];
-trainOut = rentalFiltered(:,1);
-trainOut = rentalFiltered(:,1);
-params = trainRegressor(trainIn, trainOut);
-nfold = 4;
-rms = crossValidation(trainIn, trainOut, nfold)
+% trainIn = [rentalFiltered(:,3),rentalFiltered(:,4)];
+% trainOut = rentalFiltered(:,1);
+% trainOut = rentalFiltered(:,1);
+% params = trainRegressor(trainIn, trainOut);
+% nfold = 4;
+% rms = crossValidation(trainIn, trainOut, nfold)
 
 % % Q3
 % trainIn = [rentalFiltered(:,2), rentalFiltered(:,3), rentalFiltered(:,4)];
