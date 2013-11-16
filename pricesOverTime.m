@@ -14,16 +14,19 @@ price = rentalByTimeFiltered(:,1);
 % Q1
 % m = leastSquareFit(price, time, 1),
 % %w = MLEGradDescAll(time, price);
-w = MLEGradDescAll(time, price, 1);
-% fit = polyEval(m, time);
+params = MLEGradDescAll(time, price, 1);
+ll = params.ll
+lik = exp(params.ll)
+fit = polyEval(params.w, time);
+% Get Likelihood
 
-% p1 = plot(time, price, '.k', time, fit, 'LineWidth', 2);
-% set(p1, 'Markersize',6);
-% datetick('x', 12);
-% title('Polynomial 1st Order Regression for Rental Prices over Time','FontSize',16)
-% xlabel('Time','FontSize',14);
-% ylabel('$Price [£]','FontSize',14);
-% grid on;
+p1 = plot(time, price, '.k', time, fit, 'LineWidth', 2);
+set(p1, 'Markersize',6);
+datetick('x', 12);
+title('Polynomial 0th Order Regression for Rental Prices over Time','FontSize',16)
+xlabel('Time','FontSize',14);
+ylabel('$Price [£]','FontSize',14);
+grid on;
 % Price against position for initial time period
 %rentalT1 = rentalsWithoutOutliers(rentalsWithoutOutliers(:,2) <= 7.3521e+05, :);
 % Split data into time samples

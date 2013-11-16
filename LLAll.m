@@ -1,7 +1,5 @@
-function lli = LLAll(time, price, wCurr, order, delta)
+function lli = LLAll(time, price, wCurr, sigma, order, delta)
     wCurr(order) = wCurr(order) + delta;
-	    % Do this once and pass in!
-	    sigma = std(price);
 		lli = 0;
 	    for (i=1 : length(time))
 	    	v = 0;

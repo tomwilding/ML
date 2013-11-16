@@ -1,5 +1,6 @@
-function wCurr = MLEGradDescAll(time, price, order)
+function params = MLEGradDescAll(time, price, order)
     limit = 0.01;
+    sigma = std(price);
     
     % Init Weights TODO: Ensure they are not equal
     wCurr = zeros(order+1,1);
@@ -10,24 +11,27 @@ function wCurr = MLEGradDescAll(time, price, order)
     n = 2;
     delta = 10;
     step = 10;
-    grad(n-1,:) =  (normalise(time), price, wCurr, delta);
+    gl =  LLgradAll(normalise(time), price, wCurr, sigma, delta);
+    grad(n-1,:) = gl.g;
 
-    while(norm(grad(n-1,2)) > 0.01 & norm(grad(n-1,1)) > 0.01)
+    while(gradAboveLimit(grad, n, order, limit))
         wPrev = wCurr;
         % grad(n-1,1)
         for (o=1 : order+1)
             wCurr(o) = wPrev(o) + step*grad(n-1,o);
         end
         % Update next gradient
-        grad(n,:) = LLgradAll(normalise(time), price, wCurr, delta);
+        gl = LLgradAll(normalise(time), price, wCurr, sigma, delta);
+        grad(n,:) = gl.g;
         n = n + 1;  
     end
-
+    params.ll = gl.ll;
+    params.w = wCurr;
 end
 
-function cond = gradAboveLimit(grad, n, order)
+function cond = gradAboveLimit(grad, n, order, limit)
     cond = true;
     for (o=1: order+1)
-        cond = cond & norm(grad(n-1,o));
+        cond = cond & (norm(grad(n-1,o)) > limit);
     end
 end
