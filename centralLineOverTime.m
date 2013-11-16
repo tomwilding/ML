@@ -93,4 +93,8 @@ function centralLineByTime = centralLineOverTime(trainIn, params)
 	ylabel('Time','FontSize',14);
 	zlabel('Price [£]','FontSize',14);
 	datetick('y', 12);
+	hix = get(gca,'XLabel');
+	set(gca, 'XTickLabel', '', 'XTick', 1:numel(centralLineNames));
+	set(gca, 'XTickLabel', centralLineNames);
+	rotateticklabel(gca, 45)
 end
