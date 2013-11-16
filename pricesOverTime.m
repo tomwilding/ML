@@ -41,30 +41,47 @@ price = rentalByTimeFiltered(:,1);
 % Plot price to location
 trainIn = [rentalFiltered(:,3),rentalFiltered(:,4)];
 trainOut = rentalFiltered(:,1);
+trainOut = rentalFiltered(:,1);
 params = trainRegressor(trainIn, trainOut);
-% rms = crossValidation(trainIn, trainOut, 4)
-
+nfold = 4;
+rms = crossValidation(trainIn, trainOut, nfold)
 
 % % Q3
 % trainIn = [rentalFiltered(:,2), rentalFiltered(:,3), rentalFiltered(:,4)];
 % trainOut = rentalFiltered(:,1);
 % rms = crossValidationTime(trainIn, trainOut, 4);
 
+% Q3 Chunks
+% Plot price to location
+% trainIn = [rentalFiltered(:,2), rentalFiltered(:,3), rentalFiltered(:,4)];
+% trainOut = rentalFiltered(:,1);
+% rms = crossValidationTimeChunks(trainIn, trainOut, 4)
 
-nlat = normalise(rentalFiltered(:,3));
-nlong = normalise(rentalFiltered(:,4));
-testIn = [nlat,nlong];
+% rmse = chunkByTime()
+% Get first time chunk
+% trainIn = [rentalFiltered(:,3),rentalFiltered(:,4)];
+% trainOut = rentalFiltered(:,1);
+% allIn = [rentalFiltered(:,2), trainIn, trainOut];
+% allInByTime = sortrows(allIn,1);
+% size(allInByTime)
+% pause
+% trainInTime1 = allInByTime(1: 10000, :);
+% rms = crossValidation(trainInTime1(:,(2:3)), trainInTime1(:,4), 4)
+
+% nlat = normalise(rentalFiltered(:,3));
+% nlong = normalise(rentalFiltered(:,4));
+% testIn = [nlat,nlong];
 % %Calculate value at this point
-gaussEval = testRegressor(testIn, params);
-plot3(rentalFiltered(:,3),rentalFiltered(:,4),gaussEval, '.r');
-hold on
-plot3(rentalFiltered(:,3),rentalFiltered(:,4),rentalFiltered(:,1), '.');
-title('Predicted and Actual Rental Prices','FontSize',16)
-xlabel('Latitude [Deg]','FontSize',14);
-% xlim([-0.8,0.4]);
-% ylim([51.1,51.9]);
-ylabel('Longitude [Deg]','FontSize',14);
-zlabel('Price [£]','FontSize',14);
+% gaussEval = testRegressor(testIn, params);
+% plot3(rentalFiltered(:,3),rentalFiltered(:,4),gaussEval, '.r');
+% hold on
+% plot3(rentalFiltered(:,3),rentalFiltered(:,4),rentalFiltered(:,1), '.');
+% title('Predicted and Actual Rental Prices','FontSize',16)
+% xlabel('Latitude [Deg]','FontSize',14);
+% % xlim([-0.8,0.4]);
+% % ylim([51.1,51.9]);
+% ylabel('Longitude [Deg]','FontSize',14);
+% zlabel('Price [£]','FontSize',14);
 % gaussEval = testRegressor(trainIn, params);
 % plot3(trainIn(:,1),trainIn(:,2),gaussEval, '.r');
 % params = trainRegressor2(trainIn, trainOut);

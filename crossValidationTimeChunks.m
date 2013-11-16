@@ -1,4 +1,4 @@
-function avgmse = crossValidationTime(trainIn, trainOut, n)
+function avgmse = crossValidationTimeChunks(trainIn, trainOut, n)
 
 	rmse = zeros(1,n);
 
@@ -12,8 +12,9 @@ function avgmse = crossValidationTime(trainIn, trainOut, n)
 		% Break into equal row size
 		% Find test data by splitting according to mod
 		clearvars testIn;
-		trainIndicies = mod(1:size(randomOrderData,1), n)==i-1;
-		testIndicies = ~trainIndicies;
+		% TEST on 1/4 train on 3/4 (Split to 3/16 when chunking by time)
+		testIndicies = mod(1:size(randomOrderData,1), n)==i-1;
+		trainIndicies = ~testIndicies;
 		testIn(:,1) = randomOrderData(testIndicies,2);
 		testIn(:,2) = randomOrderData(testIndicies,3);
 		testIn(:,3) = randomOrderData(testIndicies,4);
@@ -24,11 +25,15 @@ function avgmse = crossValidationTime(trainIn, trainOut, n)
 		trainIn(:,2) = randomOrderData(trainIndicies,3);
 		trainIn(:,3) = randomOrderData(trainIndicies,4);
 		trainOut = randomOrderData(trainIndicies,1);
-		% size(testIn)
 		% size(trainIn)
+		% size(testIn)
 		% pause
-		params = trainRegressorTime(trainIn, trainOut);
-		gaussEval = testRegressorTime(testIn, params);
+		params = trainRegressorTimeChunks(trainIn, trainOut);
+		for(i=1:size(params,2))
+			params(1).w
+		end
+
+		gaussEval = testRegressorTimeChunks(testIn, params);
 
 		% plot3(testIn(:,2),testIn(:,3),gaussEval, '.r');
 

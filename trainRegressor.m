@@ -32,6 +32,7 @@ function params = trainRegressor(trainIn, trainOut)
     b = min(z);
 
     % Compose thi matrix
+
     for (i=1:length(trainOut))
         for (j=1:numGauss)
             % Base encoding of data point xi
