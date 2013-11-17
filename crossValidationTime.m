@@ -12,8 +12,8 @@ function avgmse = crossValidationTime(trainIn, trainOut, n)
 		% Break into equal row size
 		% Find test data by splitting according to mod
 		clearvars testIn;
-		trainIndicies = mod(1:size(randomOrderData,1), n)==i-1;
-		testIndicies = ~trainIndicies;
+		testIndicies = mod(1:size(randomOrderData,1), n)==i-1;
+		trainIndicies = ~testIndicies;
 		testIn(:,1) = randomOrderData(testIndicies,2);
 		testIn(:,2) = randomOrderData(testIndicies,3);
 		testIn(:,3) = randomOrderData(testIndicies,4);
