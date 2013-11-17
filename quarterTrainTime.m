@@ -30,5 +30,5 @@
 
 % params = trainRegressorTime(trainIn, trainOut);
 % u = upminsterTime(trainIn, params)
-% centralLineTime = centralLineOverTime(trainIn, params);
-highestPriceChange = highestIncrease(trainIn, params)
+centralLineOverTime(trainIn, params);
+% highestPriceChange = highestIncrease(trainIn, params)

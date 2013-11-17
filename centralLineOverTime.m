@@ -1,4 +1,4 @@
-function centralLineByTime = centralLineOverTime(trainIn, params)
+function centralLineOverTime(trainIn, params)
 	load('rental.mat')
 
 	centralLineNames = {
@@ -76,21 +76,28 @@ function centralLineByTime = centralLineOverTime(trainIn, params)
 	predsForTime = allPreds(size(trainIn,1)+1: size(allPreds,1), :);
 	% predsForTime
 
-	centralLineByTime = [];
-	% size(centralLine,1)
+	styles = {
+		'bo-';'ko-';'ro-';'yo-';'go-';'co-';'mo-'; ...
+		'bs-';'ks-';'rs-';'ys-';'gs-';'cs-';'ms-'; ...
+		'b*-';'k*-';'r*-';'y*-';'g*-';'c*-';'m*-';'bv-' ...
+	};
 	for (station=1:size(centralLineSorted,1))
 		stationVec = ones(size(times,1),1)*station;
 		priceVec = predsForTime((station-1)*size(times,1)+1: station*size(times,1));
-		% priceVec
-		% pause
-		centralLineByTime = [centralLineByTime;[times, stationVec, priceVec]];
+		plot(times, priceVec, styles{station})
+		legendInfo{station} = orderedStations.names{station};
+		hold on;
+		% centralLineByTime = [centralLineByTime;[times, stationVec, priceVec]];
 	end
-	% plot3(centralLineByTime(:,1), centralLineByTime(:,2), centralLineByTime(:,3),'.')
-	surf([1:size(centralLineSorted,1)]', times, reshape(predsForTime, size(times,1), size(centralLineSorted,1)))
-	shading interp;
+	% plot3(centralLineByTime(:,1), centralLineByTime(:,2), centralLineByTime(:,3))
+	% surf([1:size(centralLineSorted,1)]', times, reshape(predsForTime, size(times,1), size(centralLineSorted,1)))
+	% shading interp;
 	title('Central Line Station Prices Over Time','FontSize',16)
-	xlabel('Station','FontSize',14);
-	ylabel('Time','FontSize',14);
-	zlabel('Price [£]','FontSize',14);
-	datetick('y', 12);
+	xlabel('Time','FontSize',14);
+	ylabel('Price [£]','FontSize',14);
+	% zlabel('Price [£]','FontSize',14);
+	datetick('x', 12);
+	legend(legendInfo, 'Location','NorthEastOutside');
+	grid on;
+	hold off;
 end
