@@ -36,7 +36,7 @@ function a = surfLondon(trainIn, params)
 	longRange = (min(long):longRangeStep:max(long));
 	latRange = (min(lat):latRangeStep:max(lat));
 
-	[X,Y] = meshgrid(longRange, latRange);
+	[X,Y] = meshgrid(latRange, longRange);
 	% size(testIn)
 	% gaussEval = testRegressor(testIn, params);
 	% plot3(testIn(:,1),testIn(:,2),gaussEval, '.r');
@@ -61,9 +61,9 @@ function a = surfLondon(trainIn, params)
 	ylabel('Latitude [Deg]','FontSize',14);
 	zlabel('Price [£]','FontSize',14);
 
-	% hold on;
-	% colorbar
-	% tys = ones(size(tube.location,1))*2500;
-	% plot3(tube.location(:,2), tube.location(:,1), tys, 'or');
+	hold on;
+	colorbar
+	tys = ones(size(tube.location,1))*2500;
+	plot3(tube.location(:,1), tube.location(:,2), tys, 'or');
 
 end

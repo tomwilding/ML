@@ -79,7 +79,6 @@ function pos = highestIncrease(trainIn, params)
 	end
 	% get the max increase over all times
 	[highestPriceDiff, highestPriceIndex] = max(maxRowInc);
-	pause
 	% Find max increase by finding the maximal row sum 
 	highestPriceDiff
 	pos = positions(highestPriceIndex, :);
