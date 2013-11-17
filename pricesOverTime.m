@@ -14,36 +14,36 @@ price = rentalByTimeFiltered(:,1);
 % Q1
 % m = leastSquareFit(price, time, 1),
 % %w = MLEGradDescAll(time, price);
-params = MLEGradDescAll(time, price, 1);
-ll = params.ll
-lik = exp(params.ll)
-fit = polyEval(params.w, time);
-% Get Likelihood
+% params = MLEGradDescAll(time, price, 1);
+% ll = params.ll
+% lik = exp(params.ll)
+% fit = polyEval(params.w, time);
+% % Get Likelihood
 
-p1 = plot(time, price, '.k', time, fit, 'LineWidth', 2);
-set(p1, 'Markersize',6);
-datetick('x', 12);
-title('Polynomial 0th Order Regression for Rental Prices over Time','FontSize',16)
-xlabel('Time','FontSize',14);
-ylabel('$Price [£]','FontSize',14);
-grid on;
+% p1 = plot(time, price, '.k', time, fit, 'LineWidth', 2);
+% set(p1, 'Markersize',6);
+% datetick('x', 12);
+% title('Polynomial 0th Order Regression for Rental Prices over Time','FontSize',16)
+% xlabel('Time','FontSize',14);
+% ylabel('$Price [£]','FontSize',14);
+% grid on;
 % Price against position for initial time period
 %rentalT1 = rentalsWithoutOutliers(rentalsWithoutOutliers(:,2) <= 7.3521e+05, :);
 % Split data into time samples
 % samplesByTime = sampleOverTime(rentalsWithoutOutliers);
 
 % Prices against time plot
-% plot3(trainIn(:,2),trainIn(:,3),trainOut,'.');
-% title('Rental Price against Location','FontSize',16)
-% xlabel('Lattitude [Deg]','FontSize',14);
-% ylabel('Longitude [Deg]','FontSize',14);
-% zlabel('Price[£]','FontSize',14);
-% grid on;
+trainIn = [rentalFiltered(:,3),rentalFiltered(:,4)];
+trainOut = rentalFiltered(:,1);
+plot3(trainIn(:,1),trainIn(:,2),trainOut,'.');
+title('Rental Price against Location','FontSize',16)
+xlabel('Lattitude [Deg]','FontSize',14);
+ylabel('Longitude [Deg]','FontSize',14);
+zlabel('Price[£]','FontSize',14);
+grid on;
 
 % Q2
 % Plot price to location
-% trainIn = [rentalFiltered(:,3),rentalFiltered(:,4)];
-% trainOut = rentalFiltered(:,1);
 % trainOut = rentalFiltered(:,1);
 % params = trainRegressor(trainIn, trainOut);
 % nfold = 4;
