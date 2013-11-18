@@ -1,10 +1,12 @@
 function [centresX, sdX, centresY, sdY, centresZ, sdZ] = kmeansTime(x ,y, z, clusters)
+	% Initialse cluster centres and standard deviation randomly 
 	centresX = rand(clusters,1);
 	sdX = ones(clusters,1);
 	centresY = rand(clusters,1);
 	sdY = ones(clusters,1);
 	centresZ = rand(clusters,1);
 	sdZ = ones(clusters,1);
+	% Loop threshold condition
 	threshold = 0.5;
 	dsquared = ones(size(centresX,1), size(x,1));
 	clusterDistances = 0;

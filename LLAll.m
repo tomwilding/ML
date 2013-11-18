@@ -1,6 +1,9 @@
 function lli = LLAll(time, price, wCurr, sigma, order, delta)
+	% Find the log likelihood over all data
     wCurr(order) = wCurr(order) + delta;
+    	% Initialise log likelihood to 0
 		lli = 0;
+		%  Sum log likelihood over all data
 	    for (i=1 : length(time))
 	    	v = 0;
     		for (j=1 : length(wCurr))

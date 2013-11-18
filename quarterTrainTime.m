@@ -11,7 +11,7 @@ combinedData = [trainOut, trainIn];
 % Re-order data randomly
 randomOrderData = combinedData(randperm(size(combinedData,1)),:);
 
-% Change the mod n to segment different proportions of data
+% Only use one iteration of the validation
 n = 4;
 testIndicies = mod(1:size(randomOrderData,1), n)==1;
 trainIndicies = ~testIndicies;
@@ -28,7 +28,13 @@ trainIn(:,2) = randomOrderData(trainIndicies,3);
 trainIn(:,3) = randomOrderData(trainIndicies,4);
 trainOut = randomOrderData(trainIndicies,1);
 
+% Train reg
 params = trainRegressorTime(trainIn, trainOut);
-% u = upminsterTime(trainIn, params)
+
+% QC using the same trained regressor above
+% (See crossValidation for cross validation)
+%%%% UNCOMMENT TO RUN REQUIRED QUESTION! %%%%
+% WCa) - Central Line over time
 centralLineOverTime(trainIn, params);
+% WCb) - Highest price change
 % highestPriceChange = highestIncrease(trainIn, params)

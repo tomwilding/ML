@@ -83,50 +83,17 @@ function pos = highestIncrease(trainIn, params)
 	highestPriceDiff
 	pos = positions(highestPriceIndex, :);
 
-	% minTime = min(rental(:,2));
-	% maxTime = max(rental(:,2));
-	% timeRangeStep = (maxTime-minTime) / (timeGranularity-1);
-	% timeRange = (minTime:timeRangeStep:maxTime)';
-	% prevTimePreds = zeros(size(XReshape,1),1);
-
-	% maxIncrease = 0;
-
-	% for (pos=1:size(positions,1))
-	% 	% Setup initial prev time pred as the inital time
-	% 	timeIn = [timeRange(1), positions(pos,:)];
-	% 	timeAllIn = [timeIn;trainIn];
-	% 	timeAllPreds = testRegressorTime(timeAllIn, params);
-	% 	prevTimePred = timeAllPreds(1);
-	% 	% Initial increase for each pos is 0
-	% 	inc = 0;
-	% 	for(ti=1:size(timeRange,1))
-	% 		% Get prediction at this time
-	% 		timeIn = [timeRange(ti), positions(pos,:)];
-	% 		timeAllIn = [timeIn;trainIn];
-	% 		timeAllPreds = testRegressorTime(timeAllIn, params);
-	% 		curTimePred = timeAllPreds(1);
-	% 		% If increasing then add to increase
-	% 		if (curTimePred > prevTimePred)
-	% 			inc = inc + (curTimePred - prevTimePred);
-	% 		% Else we have stopped increasing so check if this was
-	% 		% a maximal increase and reset increase
-	% 		elseif (inc > maxIncrease)
-	% 			% Maximal increase so far, reset increase
-	% 			maxIncrease(pos) = inc;
-	% 			inc = 0;
-	% 		else
-	% 			% Not a maximal increase but finsihed local increase
-	% 			% reset increase
-	% 			inc = 0;
-	% 		end
-	% 		prevTimePred = curTimePred;
-	% 	end
-	% end
-	% maxIncrease
-
 end
 
-
+function maxRowSum = maxRowSum(row)
+	% Find the max value of local increases at a single position
+	difference = diff([0; (row(:) ~= 0); 0]);
+	indices = [find(difference > 0) find(difference < 0)-1];
+	for (i=1:size(indices,1))
+		partialSums(i) = sum(row(indices(i,1):indices(i,2)));
+	end
+	maxRowSum = max(partialSums);
+end
 
 
 

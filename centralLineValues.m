@@ -26,7 +26,7 @@ function clv = centralLineValues(trainIn, params)
 		'Stratford'
 	};
 
-	% Rem Dups
+	% Remove duplicate tube names
 	[uniqueTubeNames, uniqueTubeIndicies] = unique(tube.station);
 	uniqueTubeNamesOnLine = [];
 	uniqueTubeLatOnLine = [];
@@ -38,9 +38,8 @@ function clv = centralLineValues(trainIn, params)
 			uniqueTubeLongOnLine = [uniqueTubeLongOnLine;tube.location(uniqueTubeIndicies(i),2)];
 		end
 	end
-
+	% Order stations by central line order
 	orderedStations = sortCentralLine(uniqueTubeNamesOnLine, uniqueTubeLatOnLine, uniqueTubeLongOnLine, centralLineNames);
-
 	centralLineIn = [orderedStations.lats,orderedStations.longs];
 
 	% Test regressor using all values trained

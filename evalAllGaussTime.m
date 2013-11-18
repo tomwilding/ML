@@ -1,4 +1,11 @@
-function v = evalAllGaussTime(w, b, c, r, time, lat, long)
+function v = evalAllGaussTime(params, time, lat, long)
+	% Unwrap params
+	w = params.w;
+	b = params.b;
+	c = params.c;
+	r = params.r;
+
+	% Get centres from the params
 	cx = c(:,1);
 	cy = c(:,2);
 	cz = c(:,3);
@@ -6,6 +13,7 @@ function v = evalAllGaussTime(w, b, c, r, time, lat, long)
 	sdy = r(:,2);
 	sdz = r(:,3);
 
+	% For each data point evaluate with the current weights
 	v = zeros(size(lat));
 	for (i=1:length(lat))
         for (j=1:size(w,1))

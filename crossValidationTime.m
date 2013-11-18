@@ -17,21 +17,20 @@ for (i=1 : nfold)
 	% Break into equal row size
 	% Find test data by splitting according to mod
 	clearvars testIn;
+	% Test data
 	testIndicies = mod(1:size(randomOrderData,1), nfold)==i-1;
 	trainIndicies = ~testIndicies;
 	testIn(:,1) = randomOrderData(testIndicies,2);
 	testIn(:,2) = randomOrderData(testIndicies,3);
 	testIn(:,3) = randomOrderData(testIndicies,4);
 	testOut = randomOrderData(testIndicies,1);
-
+	% Train data
 	clearvars trainIn;
 	trainIn(:,1) = randomOrderData(trainIndicies,2);
 	trainIn(:,2) = randomOrderData(trainIndicies,3);
 	trainIn(:,3) = randomOrderData(trainIndicies,4);
 	trainOut = randomOrderData(trainIndicies,1);
-	% size(testIn)
-	% size(trainIn)
-	% pause
+	% Train and test the regressor on the data chunks
 	params = trainRegressorTime(trainIn, trainOut);
 	gaussEval = testRegressorTime(testIn, params);
 

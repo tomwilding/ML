@@ -1,5 +1,5 @@
 function results = testRegressorTimeChunks(testIn, params)
-
+	% Normalise input values
 	ntime = normalise(testIn(:,1));
 	nlat = normalise(testIn(:,2));
 	nlong = normalise(testIn(:,3));

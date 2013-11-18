@@ -6,10 +6,10 @@
 %
 % 
 function results = testRegressor(testIn, params)
-
+	% Normalise input values
 	nlat = normalise(testIn(:,1));
 	nlong = normalise(testIn(:,2));
 	%Calculate value at this point
-	results = evalAllGauss(params.w, params.b, params.c, params.r, nlat, nlong);
+	results = evalAllGauss(params, nlat, nlong);
 
 end

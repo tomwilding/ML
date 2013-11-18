@@ -1,14 +1,14 @@
-% params = trainRegressor(trainIn, trainOut)
+% params = trainRegressorTime(trainIn, trainOut)
 % 
-% trainRegressor builds a mapping from two-dimensional input to
-% one-dimensional output.
+% trainRegressorTime builds a mapping from three-dimensional input to
+% one-dimensional output by usign basis fucntions that take in location and time.
 %
 % trainRegressor returns a structure that contains all information needed
 % for testRegressor.
 %
 % Inputs:
 %
-% trainIn    testing input locations. Size: Nx2
+% trainIn    testing input locations and time. Size: Nx3
 %
 % params    output of trainRegressor function
 %
@@ -17,13 +17,16 @@
 % results   predicted price to rent at the input locationss. Size: Nx1
 
 function params = trainRegressorTime(trainIn, trainOut)
+    % Normalsie input values
     time = normalise(trainIn(:,1));
     lat = normalise(trainIn(:,2));
     long = normalise(trainIn(:,3));
-
+    % Constant: Number of gaussians used as basis functions
     numGauss = 6;
+    % Number of clusters used in k-means
     numClusters = numGauss;
 
+    % Centres and standard deviations of gaussians from k-means
     [cx, sdx, cy, sdy, cz, sdz] = kmeansTime(lat, long, time, numClusters);
     
     % Log transform for better fit
@@ -43,6 +46,7 @@ function params = trainRegressorTime(trainIn, trainOut)
     % Optimisation using the pseudoinverse
     w = (thi' * thi) \ thi'*z;
     
+    % Return params
     params.w = w;
     params.b = b;
     params.r = [sdx, sdy, sdz];

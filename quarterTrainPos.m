@@ -1,3 +1,4 @@
+% QBd - i
 clearvars *
 load('rental.mat')
 
@@ -11,7 +12,7 @@ combinedData = [trainOut, trainIn];
 % Re-order data randomly
 randomOrderData = combinedData(randperm(size(combinedData,1)),:);
 
-% Change the mod n to segment different proportions of data
+% Only use one iteration of the validation
 n = 4;
 testIndicies = mod(1:size(randomOrderData,1), n)==1;
 trainIndicies = ~testIndicies;
@@ -28,11 +29,24 @@ trainOut = randomOrderData(trainIndicies,1);
 % Train reg
 params = trainRegressor(trainIn, trainOut);
 
-% Questions using the same trained regressor
-% compareVals(trainIn, params)
-% t = tubeValues(trainIn, params)
+% QBd - i using the same trained regressor above
+% (See crossValidation for cross validation)
+%%%% UNCOMMENT TO RUN REQUIRED QUESTION! %%%%
+
+% QBd) - Tube mean and standard deviation
+t = tubeValues(trainIn, params)
+
+% QBe) - Bar chart of central line predictions
 % c = centralLineValues(trainIn,params);
+
+% QBf) - Prediction at Imperial
 % i = imperial(trainIn, params)
+
+% QBg) - Prediction at Upminster
 % u = upminster(trainIn, params)
-surfLondon(trainIn, params);
+
+% QBh) - Mesh grid surf plot
+% surfLondon(trainIn, params);
+
+% QBi) - My own rent prediction
 % own = ownRent(trainIn, params)

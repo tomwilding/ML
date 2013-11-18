@@ -1,166 +1,28 @@
+% QA
 clearvars *
 load('rental.mat')
 
+% Sort rental by time and filter outliers
 rentalByTime = sortrows(rental,2);
-
 rentalByTimeFiltered = filterOutliers(rentalByTime);
-rentalFiltered = filterOutliers(rental);
 
+% Prices over time
 time = rentalByTimeFiltered(:,2);
 price = rentalByTimeFiltered(:,1);
 % plot(time, price, '.');
 % datetick('x', 12);
 
-% Q1
-% params = MLEGradDescAll(time, price, 1);
-% ll = params.ll
-% lik = exp(params.ll)
-% fit = polyEval(params.w, time);
-% % Get Likelihood
+% MLE regression
+% Change order to approximate 0th or 1st order ploynomial
+order = 1;
+params = MLEGradDescAll(time, price, order);
+loglik = params.ll
+fit = polyEval(params.w, time);
 
-% p1 = plot(time, price, '.k', time, fit, 'LineWidth', 2);
-% set(p1, 'Markersize',6);
-% datetick('x', 12);
-% title('Polynomial 0th Order Regression for Rental Prices over Time','FontSize',16)
-% xlabel('Time','FontSize',14);
-% ylabel('$Price [£]','FontSize',14);
-% grid on;
-% legend('prices', '0th order');
-% Price against position for initial time period
-%rentalT1 = rentalsWithoutOutliers(rentalsWithoutOutliers(:,2) <= 7.3521e+05, :);
-% Split data into time samples
-% samplesByTime = sampleOverTime(rentalsWithoutOutliers);
-
-% Prices against time plot
-% trainIn = [rentalFiltered(:,3),rentalFiltered(:,4)];
-% trainOut = rentalFiltered(:,1);
-% plot3(trainIn(:,1),trainIn(:,2),trainOut,'.');
-% title('Rental Price against Location','FontSize',16)
-% xlabel('Lattitude [Deg]','FontSize',14);
-% ylabel('Longitude [Deg]','FontSize',14);
-% zlabel('Price[£]','FontSize',14);
-% grid on;
-
-% Q2
-% trainIn = [rentalFiltered(:,3),rentalFiltered(:,4)];
-% trainOut = rentalFiltered(:,1);
-% nfold = 4;
-% rms = crossValidation(trainIn, trainOut, nfold)
-
-% % Q3
-% trainIn = [rentalFiltered(:,2), rentalFiltered(:,3), rentalFiltered(:,4)];
-% trainOut = rentalFiltered(:,1);
-% rms = crossValidationTime(trainIn, trainOut, 4);
-
-% rmse = chunkByTime()
-% Get first time chunk
-% trainIn = [rentalFiltered(:,3),rentalFiltered(:,4)];
-% trainOut = rentalFiltered(:,1);
-% allIn = [rentalFiltered(:,2), trainIn, trainOut];
-% allInByTime = sortrows(allIn,1);
-% size(allInByTime)
-% pause
-% trainInTime1 = allInByTime(1: 10000, :);
-% rms = crossValidation(trainInTime1(:,(2:3)), trainInTime1(:,4), 4)
-
-% nlat = normalise(rentalFiltered(:,3));
-% nlong = normalise(rentalFiltered(:,4));
-% testIn = [nlat,nlong];
-% %Calculate value at this point
-% gaussEval = testRegressor(testIn, params);
-% plot3(rentalFiltered(:,3),rentalFiltered(:,4),gaussEval, '.r');
-% hold on
-% plot3(rentalFiltered(:,3),rentalFiltered(:,4),rentalFiltered(:,1), '.');
-% title('Predicted and Actual Rental Prices','FontSize',16)
-% xlabel('Latitude [Deg]','FontSize',14);
-% % xlim([-0.8,0.4]);
-% % ylim([51.1,51.9]);
-% ylabel('Longitude [Deg]','FontSize',14);
-% zlabel('Price [£]','FontSize',14);
-% gaussEval = testRegressor(trainIn, params);
-% plot3(trainIn(:,1),trainIn(:,2),gaussEval, '.r');
-% params = trainRegressor2(trainIn, trainOut);
-% MU1 = params(1)
-% MU2 = params(2)
-% SD1 = params(3)
-% SD2 = params(4)
-% A = params(5)
-
-
-
-% for (i=1: length(nlat))
-% 	%Calculate value at this point
-% 	doubleGaussEval(i) = A * exp(-( ((nlat(i)-MU1)^2/(2*(SD1^2))) + ((nlong(i)-MU2)^2/(2*(SD2^2))) ));
-% end
-% plot3(nlat,nlong,doubleGaussEval, '.');
-
-% X = [0:0.01:1];
-% Y = [0:0.01:1];
-% for (i=1: length(X))
-% 	for (j=1: length(Y))
-% 		%Calculate value at this point
-% 		doubleGaussEval(i,j) = exp(-( ((X(i)-0.5)^2/(2*(std(X)^2))) + ((Y(j)-0.5)^2/(2*(std(Y)^2))) ));
-% 	end
-% end
-
-% surf(X,Y,doubleGaussEval)
-
-
-% C = [0.5,0.5];
-% R = 10;
-% % Estimated value for all i,j gaussians
-% X = [0:0.1:1];
-% Y = [0:0.1:1];
-% pred = zeros(1)
-% for (x=1:length(X))
-% 	for (y=1:length(Y))
-% 		v = 0;
-% 		for (i=1 : length(params))
-% 			for (j=1 : length(params))
-% 		    	v = v + params(i,j) * exp(-(((x + C(i,1))^2) + (y + C(i,2))^2)/2*R);
-% 			end
-% 		end
-% 		pred(x,y) = v;
-% 	end
-% end
-
-% surf(X,Y,pred);
-
-% Single gauss
-% m = mean(trainIn(:,1));
-% s = std(trainIn(:,1));
-% for (i=1 : length(trainIn(:,1)))
-% 	G(i) = singleGauss(trainIn(i,1), m, s);
-% end
-%plot(trainIn(:,1), G, '.')
-
-% Plot GaussComb for lat and long
-% Gauss evaluated at all x and y
-
-% lat = normalise(rental(:,3));
-% long = normalise(rental(:,4));
-% mx = mean(lat);
-% my = mean(long);
-% sdx = std(lat)
-% sdy = std(long);
-% egi = 1;
-% egj = 1;
-% A = 0 : 0.01 : 1;
-% B = 0 : 0.01 : 1;
-% for i=1 : length(A)
-% 	for (j=1 : length(B))
-% 		ex(i,j) = gauss(100, A(i), B(j), mx, my, 100, 100);
-% 	end
-% end
-% surf(A, B, ex);
-
-% A = 0 : 0.01 : 1;
-% B = 0 : 0.01 : 1;
-% for i=1 : length(A)
-% 	for (j=1 : length(B))
-% 		ex(i,j) = gauss(1, A(i), B(j), 0.5, 0.5, 0.2, 0.2);
-% 	end
-% end
-% surf(A, B, ex);
-%trainOut = rental(:,1);
-%params = trainRegressor1(trainIn, trainOut);
+p1 = plot(time, price, '.k', time, fit, 'LineWidth', 2);
+set(p1, 'Markersize',6);
+datetick('x', 12);
+title('Polynomial 1st Order Regression for Rental Prices over Time','FontSize',16)
+xlabel('Time','FontSize',14);
+ylabel('Price [£]','FontSize',14);
+grid on;

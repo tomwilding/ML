@@ -17,12 +17,15 @@
 % results   predicted price to rent at the input locationss. Size: Nx1
 
 function params = trainRegressor(trainIn, trainOut)
+    % Normalsie input values
     lat = normalise(trainIn(:,1));
     long = normalise(trainIn(:,2));
-
+    % Constant: Number of gaussians used as basis functions
     numGauss = 6;
+    % Number of clusters used in k-means
     numClusters = numGauss;
 
+    % Centres and standard deviations of gaussians from k-means
     [cx, sdx, cy, sdy] = kmeans(lat, long, numClusters);
     
     % Log transform for better fit
@@ -31,8 +34,7 @@ function params = trainRegressor(trainIn, trainOut)
     % Introduce bias parameter
     b = min(z);
 
-    % Compose thi matrix
-
+    % Compose thi matrix used to calculate weights
     for (i=1:length(trainOut))
         for (j=1:numGauss)
             % Base encoding of data point xi
@@ -40,9 +42,10 @@ function params = trainRegressor(trainIn, trainOut)
         end
     end
 
-    % Optimisation using the pseudoinverse
+    % Optimisation using the pseudoinverse to get the weights
     w = (thi' * thi) \ thi'*z;
     
+    % Return params
     params.w = w;
     params.b = b;
     params.r = [sdx, sdy];

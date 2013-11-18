@@ -2,21 +2,25 @@ function params = MLEGradDescAll(time, price, order)
     limit = 0.01;
     sigma = std(price);
     
-    % Init Weights TODO: Ensure they are not equal
+    % Init Weights
     wCurr = zeros(order+1,1);
     for (o=1 : order+1)
-        wCurr(o) = randn;
+        wCurr(o) = o+randn;
     end
-
+    % Intial step
     n = 2;
+    % Pertubation size
     delta = 10;
+    % Learning rate
     step = 10;
+    % Initial gradient
     gl =  LLgradAll(normalise(time), price, wCurr, sigma, delta);
     grad(n-1,:) = gl.g;
 
     while(gradAboveLimit(grad, n, order, limit))
+        % Set previous weight
         wPrev = wCurr;
-        % grad(n-1,1)
+        % For all orders of the polynomial update weights
         for (o=1 : order+1)
             wCurr(o) = wPrev(o) + step*grad(n-1,o);
         end
@@ -29,6 +33,7 @@ function params = MLEGradDescAll(time, price, order)
     params.w = wCurr;
 end
 
+% Loop condition
 function cond = gradAboveLimit(grad, n, order, limit)
     cond = true;
     for (o=1: order+1)

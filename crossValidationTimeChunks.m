@@ -19,31 +19,28 @@ for (i=1 : numFold)
 	clearvars testIn;
 	testIndicies = mod(1:size(randomOrderData,1), numFold)==i-1;
 	trainIndicies = ~testIndicies;
+	% Test data
 	testIn(:,1) = randomOrderData(testIndicies,2);
 	testIn(:,2) = randomOrderData(testIndicies,3);
 	testIn(:,3) = randomOrderData(testIndicies,4);
 	testOut = randomOrderData(testIndicies,1);
-
+	% Train data
 	clearvars trainIn;
 	trainIn(:,1) = randomOrderData(trainIndicies,2);
 	trainIn(:,2) = randomOrderData(trainIndicies,3);
 	trainIn(:,3) = randomOrderData(trainIndicies,4);
 	trainOut = randomOrderData(trainIndicies,1);
-	% size(trainIn)
-	% size(testIn)
-	% pause
+	% Train and test the regressor on the data chunks
 	params = trainRegressorTimeChunks(trainIn, trainOut);
 	gaussEval = testRegressorTimeChunks(testIn, params);
 
-	% plot3(testIn(:,2),testIn(:,3),gaussEval, '.r');
 	% For each chunk get RMSError
 	% Break data in time chunks
     numChunks = 4;
     chunkSize = floor(size(testIn,1) / numChunks);
 
-
+    % Get root mean sqaured error for each time chunk
 	ntime = normalise(testIn(:,1));
-
     allIn = [ntime, testOut];
 	testOutByTime = sortrows(allIn,1);
     for(j=1:numChunks)
