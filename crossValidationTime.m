@@ -1,39 +1,42 @@
-function avgmse = crossValidationTime(trainIn, trainOut, n)
+clearvars *
+load('rental.mat');
+rentalFiltered = filterOutliers(rental);
+trainIn = [rentalFiltered(:,2), rentalFiltered(:,3),rentalFiltered(:,4)];
+trainOut = rentalFiltered(:,1);
 
-	rmse = zeros(1,n);
+nfold = 4;
+rmse = zeros(1,nfold);
 
-	% Combine input
-	combinedData = [trainOut, trainIn];
-	% Re-order data randomly
-	randomOrderData = combinedData(randperm(size(combinedData,1)),:);
+% Combine input
+combinedData = [trainOut, trainIn];
+% Re-order data randomly
+randomOrderData = combinedData(randperm(size(combinedData,1)),:);
 
-	% Randomly re-order data
-	for (i=1 : n)
-		% Break into equal row size
-		% Find test data by splitting according to mod
-		clearvars testIn;
-		testIndicies = mod(1:size(randomOrderData,1), n)==i-1;
-		trainIndicies = ~testIndicies;
-		testIn(:,1) = randomOrderData(testIndicies,2);
-		testIn(:,2) = randomOrderData(testIndicies,3);
-		testIn(:,3) = randomOrderData(testIndicies,4);
-		testOut = randomOrderData(testIndicies,1);
+% Randomly re-order data
+for (i=1 : nfold)
+	% Break into equal row size
+	% Find test data by splitting according to mod
+	clearvars testIn;
+	testIndicies = mod(1:size(randomOrderData,1), nfold)==i-1;
+	trainIndicies = ~testIndicies;
+	testIn(:,1) = randomOrderData(testIndicies,2);
+	testIn(:,2) = randomOrderData(testIndicies,3);
+	testIn(:,3) = randomOrderData(testIndicies,4);
+	testOut = randomOrderData(testIndicies,1);
 
-		clearvars trainIn;
-		trainIn(:,1) = randomOrderData(trainIndicies,2);
-		trainIn(:,2) = randomOrderData(trainIndicies,3);
-		trainIn(:,3) = randomOrderData(trainIndicies,4);
-		trainOut = randomOrderData(trainIndicies,1);
-		% size(testIn)
-		% size(trainIn)
-		% pause
-		params = trainRegressorTime(trainIn, trainOut);
-		gaussEval = testRegressorTime(testIn, params);
+	clearvars trainIn;
+	trainIn(:,1) = randomOrderData(trainIndicies,2);
+	trainIn(:,2) = randomOrderData(trainIndicies,3);
+	trainIn(:,3) = randomOrderData(trainIndicies,4);
+	trainOut = randomOrderData(trainIndicies,1);
+	% size(testIn)
+	% size(trainIn)
+	% pause
+	params = trainRegressorTime(trainIn, trainOut);
+	gaussEval = testRegressorTime(testIn, params);
 
-		% plot3(testIn(:,2),testIn(:,3),gaussEval, '.r');
+	% plot3(testIn(:,2),testIn(:,3),gaussEval, '.r');
 
-		rmse(i) = rmserror(gaussEval, testOut);
-		avgmse = mean(rmse);
-	end
-
+	foldRmse(i) = rmserror(gaussEval, testOut)
 end
+avgmse = mean(foldRmse)

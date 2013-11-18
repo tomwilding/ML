@@ -12,19 +12,19 @@ price = rentalByTimeFiltered(:,1);
 % datetick('x', 12);
 
 % Q1
-params = MLEGradDescAll(time, price, 1);
+% params = MLEGradDescAll(time, price, 1);
 % ll = params.ll
 % lik = exp(params.ll)
-fit = polyEval(params.w, time);
+% fit = polyEval(params.w, time);
 % % Get Likelihood
 
-p1 = plot(time, price, '.k', time, fit, 'LineWidth', 2);
-set(p1, 'Markersize',6);
-datetick('x', 12);
-title('Polynomial 0th Order Regression for Rental Prices over Time','FontSize',16)
-xlabel('Time','FontSize',14);
-ylabel('$Price [£]','FontSize',14);
-grid on;
+% p1 = plot(time, price, '.k', time, fit, 'LineWidth', 2);
+% set(p1, 'Markersize',6);
+% datetick('x', 12);
+% title('Polynomial 0th Order Regression for Rental Prices over Time','FontSize',16)
+% xlabel('Time','FontSize',14);
+% ylabel('$Price [£]','FontSize',14);
+% grid on;
 % legend('prices', '0th order');
 % Price against position for initial time period
 %rentalT1 = rentalsWithoutOutliers(rentalsWithoutOutliers(:,2) <= 7.3521e+05, :);
@@ -42,9 +42,8 @@ grid on;
 % grid on;
 
 % Q2
-% Plot price to location
+% trainIn = [rentalFiltered(:,3),rentalFiltered(:,4)];
 % trainOut = rentalFiltered(:,1);
-% params = trainRegressor(trainIn, trainOut);
 % nfold = 4;
 % rms = crossValidation(trainIn, trainOut, nfold)
 
@@ -52,12 +51,6 @@ grid on;
 % trainIn = [rentalFiltered(:,2), rentalFiltered(:,3), rentalFiltered(:,4)];
 % trainOut = rentalFiltered(:,1);
 % rms = crossValidationTime(trainIn, trainOut, 4);
-
-% Q3 Chunks
-% Plot price to location
-% trainIn = [rentalFiltered(:,2), rentalFiltered(:,3), rentalFiltered(:,4)];
-% trainOut = rentalFiltered(:,1);
-% rms = crossValidationTimeChunks(trainIn, trainOut, 4)
 
 % rmse = chunkByTime()
 % Get first time chunk
