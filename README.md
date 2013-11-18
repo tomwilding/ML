@@ -15,7 +15,7 @@ c) RMSE using cross validation
 crossValidation.m
 
 d) - i)
-For the same resuts as the report load('params.mat'); load('trainIn.mat')
+For the same resuts as the report load('paramsPos.mat'); load('trainInPos.mat')
 quarterTrainPos.m %%%%UNCOMMENT AS REQUIRED%%%%
 
 QC)
@@ -28,7 +28,7 @@ Chunk data in time (option 3):
 crossValidationTimeChunks.m
 (uses trainRegressorTimeChunks.m, testRegressorTimeChunks.m)
 
-For the same resuts as the report load('paramsT.mat'); load('trainInT.mat')
+For the same resuts as the report load('paramsTime.mat'); load('trainInTime.mat')
 Central line price changes over time:
 quarterTrainTime.m
 

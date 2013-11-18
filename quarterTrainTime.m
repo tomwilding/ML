@@ -1,16 +1,16 @@
 % QCa - b
 load('rental.mat')
-if (~(exist('params') && exist('trainIn')))
+if (~(exist('paramsTime') && exist('trainInTime')))
 	clearvars *
 	load('rental.mat')
 
 	rentalFiltered = filterOutliers(rental);
 
-	trainIn = [rentalFiltered(:,2),rentalFiltered(:,3),rentalFiltered(:,4)];
+	trainInTime = [rentalFiltered(:,2),rentalFiltered(:,3),rentalFiltered(:,4)];
 	trainOut = rentalFiltered(:,1);
 
 	% Combine input
-	combinedData = [trainOut, trainIn];
+	combinedData = [trainOut, trainInTime];
 	% Re-order data randomly
 	randomOrderData = combinedData(randperm(size(combinedData,1)),:);
 
@@ -25,20 +25,20 @@ if (~(exist('params') && exist('trainIn')))
 	testIn(:,3) = randomOrderData(testIndicies,4);
 	testOut = randomOrderData(testIndicies,1);
 
-	clearvars trainIn;
-	trainIn(:,1) = randomOrderData(trainIndicies,2);
-	trainIn(:,2) = randomOrderData(trainIndicies,3);
-	trainIn(:,3) = randomOrderData(trainIndicies,4);
+	clearvars trainInTime;
+	trainInTime(:,1) = randomOrderData(trainIndicies,2);
+	trainInTime(:,2) = randomOrderData(trainIndicies,3);
+	trainInTime(:,3) = randomOrderData(trainIndicies,4);
 	trainOut = randomOrderData(trainIndicies,1);
 
 	% Train reg
-	params = trainRegressorTime(trainIn, trainOut);
+	paramsTime = trainRegressorTime(trainInTime, trainOut);
 end
 
 % QC using the same trained regressor above
 % (See crossValidation for cross validation)
 %%%% UNCOMMENT TO RUN REQUIRED QUESTION! %%%%
 % WCa) - Central Line over time
-centralLineOverTime(trainIn, params);
+centralLineOverTime(trainInTime, paramsTime);
 % WCb) - Highest price change
-% highestPriceChange = highestIncrease(trainIn, params)
+highestPriceChange = highestIncrease(trainInTime, paramsTime)
