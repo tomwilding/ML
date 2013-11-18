@@ -16,6 +16,6 @@ function results = testRegressorTimeChunks(testIn, params)
 	for (i=1 : numChunks)
 		% Break into chunks of equals size
 		allInChunk = allInByTime((i-1)*chunkSize+1: i*chunkSize, :);
-		results(:,i) = evalAllGauss(params(i).w, params(i).b, params(i).c, params(i).r, allInChunk(:,(2)), allInChunk(:,(3)));
+		results(:,i) = evalAllGauss(params(i), allInChunk(:,(2)), allInChunk(:,(3)));
 	end
 end

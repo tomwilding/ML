@@ -14,17 +14,21 @@ trainRegressor.m, testRegressor.m
 c) RMSE using cross validation
 crossValidation.m
 
-d) - i) 
+d) - i)
+For the same resuts as the report load('params.mat'); load('trainIn.mat')
 quarterTrainPos.m %%%%UNCOMMENT AS REQUIRED%%%%
 
 QC)
 a) Account for passage of time
 Gaussians that take space and time (option 2):
-trainRegressorTime.m, testRegressorTime.m, crossValidationTime.m
+crossValidationTime.m
+(uses trainRegressorTime.m, testRegressorTime.m)
 
 Chunk data in time (option 3):
-trainRegressorTimeChunks.m, testRegressorTimeChunks.m, crossValidationTimeChunks.m
+crossValidationTimeChunks.m
+(uses trainRegressorTimeChunks.m, testRegressorTimeChunks.m)
 
+For the same resuts as the report load('paramsT.mat'); load('trainInT.mat')
 Central line price changes over time:
 quarterTrainTime.m
 

@@ -4,7 +4,7 @@ rentalFiltered = filterOutliers(rental);
 trainIn = [rentalFiltered(:,3),rentalFiltered(:,4)];
 trainOut = rentalFiltered(:,1);
 
-nfold = 4;
+nfold = 10;
 rmse = zeros(1,nfold);
 
 % Combine input

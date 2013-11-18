@@ -1,4 +1,5 @@
 function a = surfLondon(trainIn, params)
+	load('rental.mat')
 	%test regressor over range of long and lat coordinates
 	lat = trainIn(:,1);
 	long = trainIn(:,2);
@@ -8,18 +9,18 @@ function a = surfLondon(trainIn, params)
 	latRange = (min(lat):latRangeStep:max(lat));
 
 	% Create mesh of finely spaced coordinates
-	[X,Y] = meshgrid(latRange, longRange);
+	[longs,lats] = meshgrid(latRange, longRange);
 	% Reshape to pass to testRegressor	 
-	XReshape = reshape(X, size(longRange,2)^2,1);
-	YReshape = reshape(Y, size(latRange,2)^2,1);
+	XReshape = reshape(longs, size(latRange,2)^2,1);
+	YReshape = reshape(lats, size(longRange,2)^2,1);
 	testIn = [XReshape,YReshape];
 
 	gaussEval = testRegressor(testIn, params);
 	% Reshape the predictions back to the required shape
-	gaussEvalReshape = reshape(gaussEval, size(longRange,2), size(latRange,2));
+	gaussEvalReshape = reshape(gaussEval, size(latRange,2), size(longRange,2));
 	
 	% Surf plot the predictions at the finely spaced coordinates 
-	surf(X,Y,gaussEvalReshape);
+	surf(lats,longs,gaussEvalReshape);
 	title('Rental Prices at London Locations','FontSize',16)
 	xlabel('Longitude [Deg]','FontSize',14);
 	% xlim([-0.8,0.4]);
@@ -31,6 +32,8 @@ function a = surfLondon(trainIn, params)
 	% hold on;
 	% colorbar
 	% tys = ones(size(tube.location,1))*2500;
-	% plot3(tube.location(:,1), tube.location(:,2), tys, 'or');
+	% % X axis is longitude
+	% plot3(tube.location(:,2), tube.location(:,1), tys, 'or');
+	% axis tight;
 
 end
