@@ -35,19 +35,19 @@ end
 %%%% UNCOMMENT TO RUN REQUIRED QUESTION! %%%%
 
 % QBd) - Tube mean and standard deviation
-% t = tubeValues(trainIn, params)
+% tubeVals = tubeValues(trainIn, params)
 
 % QBe) - Bar chart of central line predictions
-% c = centralLineValues(trainIn,params);
+% centralVals = centralLineValues(trainIn,params);
 
 % QBf) - Prediction at Imperial
-% i = imperial(trainIn, params)
+% imperialVal = imperial(trainIn, params)
 
 % QBg) - Prediction at Upminster
-% u = upminster(trainIn, params)
+% upminsterVal = upminster(trainIn, params)
 
 % QBh) - Mesh grid surf plot
 surfLondon(trainIn, params);
 
 % QBi) - My own rent prediction
-% own = ownRent(trainIn, params)
+% ownVal = ownRent(trainIn, params)

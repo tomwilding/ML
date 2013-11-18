@@ -39,6 +39,6 @@ end
 % (See crossValidation for cross validation)
 %%%% UNCOMMENT TO RUN REQUIRED QUESTION! %%%%
 % WCa) - Central Line over time
-% centralLineOverTime(trainIn, params);
+centralLineOverTime(trainIn, params);
 % WCb) - Highest price change
-highestPriceChange = highestIncrease(trainIn, params)
+% highestPriceChange = highestIncrease(trainIn, params)

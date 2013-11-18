@@ -52,10 +52,10 @@ function clv = centralLineValues(trainIn, params)
 	title('Predicted Rental Price on the Central Line','FontSize',16)
 	xlabel('Station','FontSize',14);
 	ylabel('Price [£]','FontSize',14);
-	hix = get(gca,'XLabel');
+	xHandle = get(gca,'XLabel');
 	set(gca, 'XTickLabel', '', 'XTick', 1:numel(centralLineNames));
-	set(hix,'Units','data');
-	position = get(hix, 'Position');
+	set(xHandle,'Units','data');
+	position = get(xHandle, 'Position');
 	y = position(2);
 	for i = 1:size(centralLineNames,1)
 		t(i) = text(i, y+100, centralLineNames{i});

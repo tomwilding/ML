@@ -14,7 +14,7 @@ price = rentalByTimeFiltered(:,1);
 
 % MLE regression
 % Change order to approximate 0th or 1st order ploynomial
-order = 1;
+order = 0;
 params = MLEGradDescAll(time, price, order);
 loglik = params.ll
 fit = polyEval(params.w, time);
@@ -22,7 +22,7 @@ fit = polyEval(params.w, time);
 p1 = plot(time, price, '.k', time, fit, 'LineWidth', 2);
 set(p1, 'Markersize',6);
 datetick('x', 12);
-title('Polynomial 1st Order Regression for Rental Prices over Time','FontSize',16)
+title('Polynomial Oth Order Regression for Rental Prices over Time','FontSize',16)
 xlabel('Time','FontSize',14);
 ylabel('Price [£]','FontSize',14);
 grid on;

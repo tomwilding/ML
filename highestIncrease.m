@@ -26,6 +26,7 @@ function pos = highestIncrease(trainIn, params)
 	YReshape = reshape(Y, size(longRange,2)^2,1);
 	positions = [XReshape, YReshape];
 
+	% Initially calculated difference between min and max time	 
 	% Get predicted value of all poiints at the min time
 	% minTimeIn = [intialTime, XReshape, YReshape];
 	% % Append trainIn to test data
