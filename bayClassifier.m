@@ -35,5 +35,7 @@ for(s=1:numChunks)
 	bestIndex';
 	predsForRegressor = find(bestIndex'==s);
 	correctPreds = size(predsForRegressor,1);
-	acc(s) = (correctPreds / sampleSize)
+	acc(s) = (correctPreds / sampleSize);
 end
+% Mean of fraction of correct of prediction
+meanAcc = mean(acc)
